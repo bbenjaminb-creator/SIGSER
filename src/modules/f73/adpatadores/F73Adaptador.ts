@@ -1,4 +1,4 @@
-import { IAdaptadorModulo } from "@/framework/consultas/AdaptadorModulo";
+import { IAdaptadorModulo } from "../../../framework/consultas/AdaptadorModulo";
 
 export class F73Adaptador implements IAdaptadorModulo {
   readonly modulo = "F73";
