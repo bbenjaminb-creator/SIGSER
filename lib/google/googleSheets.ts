@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+
 import { obtenerClienteGoogle } from "./auth";
 
 export async function leerHoja(
@@ -9,7 +10,7 @@ export async function leerHoja(
 
   const sheets = google.sheets({
     version: "v4",
-    auth,
+    auth: auth as any,
   });
 
   const respuesta = await sheets.spreadsheets.values.get({
