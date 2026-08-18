@@ -1,5 +1,6 @@
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import VolverAtras from "../../src/components/VolverAtras";
 
 type DashboardLayoutProps = {
   children: React.ReactNode;
@@ -18,7 +19,11 @@ export default function DashboardLayout({
         <Topbar />
 
         <main className="flex-1 overflow-auto p-6">
+
+          <VolverAtras />
+
           {children}
+
         </main>
 
       </div>
