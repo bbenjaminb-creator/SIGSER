@@ -212,48 +212,42 @@
     }
   }
       return (
-      <div style={{ padding: "24px" }}>
-<h1 style={{ margin: 0 }}>
-  Operaciones
-</h1>
+  <>
+    <DashboardOperaciones
+      ordenes={ordenes}
+      onVerOrden={abrirOrden}
+    />
 
-<p>Gestión y seguimiento de órdenes de servicio.</p>
-      <DashboardOperaciones
-    ordenes={ordenes}
-    onVerOrden={abrirOrden}
-  />
-  <ToolbarOperaciones
-    busqueda={busqueda}
-    onBusquedaChange={setBusqueda}
-    filtrosEstado={filtrosEstado}
-    onFiltrosEstadoChange={setFiltrosEstado}
-    supervisores={supervisores}
-    supervisorSeleccionado={supervisorSeleccionado}
-    onSupervisorChange={setSupervisorSeleccionado}
-    tiposOrden={tiposOrden}
-    tipoSeleccionado={tipoSeleccionado}
-    onTipoChange={setTipoSeleccionado}
-    onActualizar={actualizarOrdenes}
+    <ToolbarOperaciones
+      busqueda={busqueda}
+      onBusquedaChange={setBusqueda}
+      filtrosEstado={filtrosEstado}
+      onFiltrosEstadoChange={setFiltrosEstado}
+      supervisores={supervisores}
+      supervisorSeleccionado={supervisorSeleccionado}
+      onSupervisorChange={setSupervisorSeleccionado}
+      tiposOrden={tiposOrden}
+      tipoSeleccionado={tipoSeleccionado}
+      onTipoChange={setTipoSeleccionado}
+      onActualizar={actualizarOrdenes}
+      periodoSeleccionado={periodoSeleccionado}
+      onPeriodoChange={setPeriodoSeleccionado}
+      fechaDesde={fechaDesde}
+      onFechaDesdeChange={setFechaDesde}
+      fechaHasta={fechaHasta}
+      onFechaHastaChange={setFechaHasta}
+    />
 
-    periodoSeleccionado={periodoSeleccionado}
-  onPeriodoChange={setPeriodoSeleccionado}
+    <TablaOrdenes
+      ordenes={ordenesFiltradas}
+      onVer={abrirOrden}
+    />
 
-  fechaDesde={fechaDesde}
-  onFechaDesdeChange={setFechaDesde}
-  fechaHasta={fechaHasta}
-  onFechaHastaChange={setFechaHasta}
-  />
-
-        <TablaOrdenes
-          ordenes={ordenesFiltradas}
-          onVer={abrirOrden}
-        />
-
-        <PanelServicio
-          abierto={panelAbierto}
-          orden={ordenSeleccionada}
-          onCerrar={() => setPanelAbierto(false)}
-        />
-      </div>
-    );
+    <PanelServicio
+      abierto={panelAbierto}
+      orden={ordenSeleccionada}
+      onCerrar={() => setPanelAbierto(false)}
+    />
+  </>
+);
   }

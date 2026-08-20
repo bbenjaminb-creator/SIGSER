@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { F73Service } from "../modules/operaciones/services/f73.service";
 import { Orden } from "../modules/operaciones/types/Orden";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Modulo =
   | "OPERACIONES"
@@ -494,7 +496,14 @@ const formularios: Formulario[] = [
 
 export default function BlueprintHome() {
 
-    const [ordenes, setOrdenes] = useState<Orden[]>([]);
+  const router = useRouter();
+
+  const [mostrarInformes, setMostrarInformes] =
+    useState(false);
+
+  const [ordenes, setOrdenes] =
+    useState<Orden[]>([]);
+
   const servicio = new F73Service();
 
     useEffect(() => {
@@ -813,12 +822,17 @@ if (porcentajeHoy > 15) {
 />
               <TarjetaProceso nombre="Recursos Operativos" />
               <TarjetaProceso nombre="Inspecciones" />
-              <TarjetaProceso nombre="Informes" />
+              <TarjetaProceso
+  nombre="Informes"
+  onClick={() => {
+    setMostrarInformes(true);
+  }}
+/>
               <TarjetaProceso nombre="Productividad" />
               <TarjetaProceso nombre="Alertas" />
             </>
           )}
-
+          
           {moduloSeleccionado === "COMERCIAL" && (
             <>
               <TarjetaProceso nombre="Cotizaciones" />
@@ -913,6 +927,14 @@ if (porcentajeHoy > 15) {
             ))}
           </div>
         </div>
+                <InformesModal
+          mostrar={mostrarInformes}
+          onCerrar={() => setMostrarInformes(false)}
+          onAbrirSiemens={() => {
+            setMostrarInformes(false);
+            router.push("/siemens");
+          }}
+        />
       </>
     );
   }
@@ -936,11 +958,24 @@ if (porcentajeHoy > 15) {
   }
 >
           <li>• Órdenes</li>
-          <li>• Recursos Operativos</li>
-          <li>• Inspecciones</li>
-          <li>• Informes</li>
-          <li>• Productividad</li>
-          <li>• Alertas</li>
+<li>• Recursos Operativos</li>
+<li>• Inspecciones</li>
+
+<li>
+  <button
+    type="button"
+    onClick={(e) => {
+      e.stopPropagation();
+      setMostrarInformes(true);
+    }}
+    className="hover:text-blue-600 hover:underline cursor-pointer"
+  >
+    • Informes
+  </button>
+</li>
+
+<li>• Productividad</li>
+<li>• Alertas</li>
         </TarjetaModulo>
 
         <TarjetaModulo
@@ -1009,7 +1044,7 @@ if (porcentajeHoy > 15) {
 
       </div>
 
-      <div className="mt-10">
+            <div className="mt-10">
         <button
           onClick={() => setModuloSeleccionado("TODOS")}
           className="rounded-xl border p-6 shadow-sm hover:shadow-md transition w-full md:w-auto"
@@ -1017,7 +1052,75 @@ if (porcentajeHoy > 15) {
           📚 Todos los formularios
         </button>
       </div>
+
+
+           <InformesModal
+        mostrar={mostrarInformes}
+        onCerrar={() => setMostrarInformes(false)}
+        onAbrirSiemens={() => {
+          setMostrarInformes(false);
+          router.push("/siemens");
+        }}
+      />
     </>
+  );
+}
+
+function InformesModal({
+  mostrar,
+  onCerrar,
+  onAbrirSiemens,
+}: {
+  mostrar: boolean;
+  onCerrar: () => void;
+  onAbrirSiemens: () => void;
+}) {
+  if (!mostrar) {
+    return null;
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-sm p-6">
+
+        <h2 className="text-xl font-semibold mb-2">
+          Informes
+        </h2>
+
+        <p className="text-sm text-gray-500 mb-5">
+          Seleccione el informe que desea revisar.
+        </p>
+
+        <button
+          type="button"
+          onClick={onAbrirSiemens}
+          className="block w-full text-left px-4 py-3 rounded-lg border hover:bg-gray-50 transition cursor-pointer"
+        >
+          <div className="font-medium">
+            SIEMENS
+          </div>
+
+          <div className="text-sm text-gray-500">
+            Informes mensuales
+          </div>
+        </button>
+
+        <div className="flex justify-end mt-5">
+
+          <button
+            type="button"
+            onClick={onCerrar}
+            className="px-4 py-2 rounded-lg border hover:bg-gray-50 transition"
+          >
+            Cerrar
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
   );
 }
 
@@ -1058,14 +1161,15 @@ function TarjetaProceso({
   onClick?: () => void;
 }) {
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
-      className="rounded-xl border p-6 shadow-sm hover:shadow-md cursor-pointer transition"
+      className="rounded-xl border p-6 shadow-sm hover:shadow-md cursor-pointer transition text-left"
     >
       <h2 className="text-xl font-semibold">
         {nombre}
       </h2>
-    </div>
+    </button>
   );
 }
 
